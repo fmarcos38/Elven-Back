@@ -13,5 +13,4 @@ router.get('/', getProd);
 router.get('/getByName/:name', getByName);
 
 
-
 module.exports = router;
