@@ -232,7 +232,7 @@ const getCart = async(req, res) =>{
 };
 //--elim un prod del carrito
 const deleteToCart = async(req, res) =>{
-    try {
+    
         const {name,idU} = req.body;
         //busco el user y su array de fav
         let user = await Users.findById({_id:idU});
@@ -243,9 +243,7 @@ const deleteToCart = async(req, res) =>{
         await user.save();
 
         res.json(user.cart);
-    } catch (error) {
-        console.log(error);
-    }
+    
     
 };
 //--elim carrito una vez pago/

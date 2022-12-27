@@ -44,7 +44,7 @@ router.post('/cart', postCart);
 //--trae carrito-----------------------------------
 router.get('/cart/:id', getCart);
 //--elim un prod del carrito-----
-router.post('/deleteProd/cart', /* validaToken, */deleteToCart);
+router.post('/deleteProd/cart', deleteToCart);
 //--elim carrrito una vez pagado
 router.delete("/deleteCarrito/:_id", deleteCarrito);
 
