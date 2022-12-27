@@ -16,7 +16,7 @@ const app = express();
 dotenv.config();
 
 //--conexion DB----------------------------------------------------------
-mongoose.connect(process.env.MONGO_URI, {
+mongoose.connect("mongodb+srv://franco:franco140183@elven.0vslzcg.mongodb.net/?retryWrites=true&w=majority", {
     useCreateIndex: true,
     useNewUrlParser: true,
     useFindAndModify: false,
