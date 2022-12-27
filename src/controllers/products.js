@@ -10,11 +10,23 @@ const getProd = async(req, res) => {
         console.log(error);
     }
 };
+//trae por nombre
+const getByName = async(req, res) => {
+    try {
+        const {name} = req.params;
 
+        const buscaP = await Products.find({name: name});
+
+        res.json(buscaP);
+    } catch (error) {
+        console.log(error);
+    }
+    
+};
 
 module.exports = {
     getProd,
-    //getByName,
+    getByName,
     //getProdByID,
     //elimProd,
 }

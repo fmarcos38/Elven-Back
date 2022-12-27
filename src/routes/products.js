@@ -9,6 +9,9 @@ const upload = require("../helpers/multer");
 
 //muestra Productos
 router.get('/', getProd);
+//busca por nombre
+router.get('/getByName/:name', getByName);
+
 
 
 module.exports = router;
