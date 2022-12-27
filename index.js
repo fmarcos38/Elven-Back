@@ -4,8 +4,8 @@ const dotenv = require('dotenv');
 const cors = require('cors');
 
 //--importo rutas--------------------------------------------------------
-//const routeUsers = require('./src/routes/users');
-//const routerAuth = require('./src/routes/auth');
+const routeUsers = require('./src/routes/users');
+const routerAuth = require('./src/routes/auth');
 const routeCategories = require('./src/routes/categories');
 const routeProducts = require('./src/routes/products');
 //const routeCompras = require('./src/routes/compras');
@@ -32,8 +32,8 @@ app.use(cors());
 //-------------------------------------------
 
 //--invoco rutas con app-------------------------------------------------
-//app.use('/users', routeUsers);
-//app.use('/auth', routerAuth);
+app.use('/users', routeUsers);
+app.use('/auth', routerAuth);
 app.use('/categories', routeCategories);
 app.use('/products', routeProducts);
 //app.use('/compras', routeCompras);
