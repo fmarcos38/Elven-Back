@@ -23,10 +23,36 @@ const getByName = async(req, res) => {
     }
     
 };
+//trae por id
+const getProdByID = async(req, res) => {
+    try {
+        const {_id} = req.params;
+
+        const prod = await Products.findById(_id);
+
+        res.json(prod);
+    } catch (error) {
+        console.log(error);
+    }
+    
+};
+const elimProd = async(req,res) => {
+
+    try {
+        const{_id} = req.params;
+
+        const prodElim = await Products.findByIdAndDelete(_id);
+
+        res.json(prodElim);
+    } catch (error) {
+        console.log(error);
+    }
+    
+};
 
 module.exports = {
     getProd,
     getByName,
-    //getProdByID,
-    //elimProd,
+    getProdByID,
+    elimProd,
 }
