@@ -2,7 +2,7 @@ const nodemailer=require('nodemailer');
 
 //para desp de registrarse
 const sendConfirmationEmail = async(user,token)=>{
-console.log("userSendMail:", user)
+//console.log("userSendMail:", user)
 //console.log("tokenSendMail:", token)//llega bien
     //Crea el transportador con la configuración requerida para Outlook/gmail/etc
     var transport = nodemailer.createTransport({
@@ -20,7 +20,7 @@ console.log("userSendMail:", user)
 
     // actualizar el localhost al actual del front
     //Poner la variable para el deployment
-    const urlConfirm=`http://localhost:3002/confirmed?token=${token}`;//es a donde te redirige al precionar el btn_confirmar_registro
+    const urlConfirm=`https://elven-back.onrender.com/confirmed?token=${token}`;//es a donde te redirige al precionar el btn_confirmar_registro
     //cont del email
     var mailOptions = {
         from: '"Elven Coffee" <elvencoffe@hotmail.com>', // sender address (who sends)
@@ -56,19 +56,19 @@ const mailCompra = async (user)=>{
             rejectUnauthorized: false
          },
         auth: {
-          user: "muybrillanteweb@hotmail.com",   
-          pass: "140183mer"
+          user: "elvencoffe@hotmail.com",   
+          pass: "franco140183"
         }
     });
 
     await transport.sendMail({
-        from: '"Muybrillante" <muybrillanteweb@hotmail.com>',
+        from: '"Elven Coffee" <elvencoffe@hotmail.com>',
         to: user,
         subject: "Confirmacion de compra",
         html: `
         <center>
         <h4>Muchas gracias por tu compra! Tu pedido a sido recibido, nos pondremos en contacto a la brevedad.</h4>
-        <img src=https://res.cloudinary.com/dbddm3o1w/image/upload/v1664890546/snngwysnvpq5vta7mpul.bmp width="200px" height="200px" />
+        <img src=https://res.cloudinary.com/dn24epw7c/image/upload/v1668088163/20221105_220258_msevf1.jpg width="200px" height="200px" />
         </center>
         `
     });

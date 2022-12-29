@@ -40,7 +40,7 @@ const getVentasPorDia = async(req, res) => {
 
    const ventasProFecha = allVenta.filter(v => v.fecha_compra === newFecha);
 
-   if(!ventasProFecha[0]){return res.json({msj: "no hay ventas"})}
+   //if(!ventasProFecha[0]){return res.json({msj: "no hay ventas"})}
 
    res.json(ventasProFecha);
    
@@ -64,7 +64,7 @@ const getVentasPorMes = async(req, res) => {
         }
     });
 
-    if(!allVntsMes[0]){return res.json({msj: "no hay vntas para dicho mes!!"})}
+    //if(!allVntsMes[0]){return res.json({msj: "no hay vntas para dicho mes!!"})}
     res.json(allVntsMes);
 };
 const getCompraDetalle = async(req, res) => {
@@ -116,8 +116,8 @@ const enviaMail = async(req, res) => {
 //y cada vez q un user llega a pagar, pero se arrepiente y cierra la pagina o vuelve para atrás
 //NO se llene la tabla compras de compras pending
 const elimCompra = async(req, res) => {
-    const filtraPending = await Ususarios.deleteMany({status: 'pending'});
-    const filtraRejected = await Ususarios.deleteMany({status: 'rejected'});
+    const filtraPending = await Usuarios.deleteMany({status: 'pending'});
+    const filtraRejected = await Usuarios.deleteMany({status: 'rejected'});
     res.send("Compras filtradas");
 };
 //vacia tabla compras PARA el desarrollador/por postman
