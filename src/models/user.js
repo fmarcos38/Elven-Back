@@ -4,8 +4,8 @@ const UserShema = Schema({
     name: { type: String, required: true },
     email: { type: String, required: true },
     password: { type: String, required: true },
-    tel: { type: Number },
-    address: { type: String }, 
+    tel: { type: Number, required: true },
+    /* address: { type: String, required: true }, */
     role: { type: String, default: 'cliente', },/* el otro rol es -->admin */
     favorites:{ type:Array, default:[] },
     cart:{ type:Array, default:[] },

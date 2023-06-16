@@ -1,17 +1,13 @@
 const { Router } = require('express');
 const {
-    login, validaCuenta, loginGoogle, 
+    login, validaCuenta, 
 } = require('../controllers/auth');
 
 const router = Router();
 
 //--login clasico--------------------------------
-router.post("/login", login);
-
-//--log Google----------------------------------
-router.post("/loginGoogle", loginGoogle);
-
 router.get('/validaCuenta/:token', validaCuenta);
+router.post("/login", login);
 
 module.exports = router;
 
