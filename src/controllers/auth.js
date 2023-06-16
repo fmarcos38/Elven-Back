@@ -4,34 +4,78 @@ const jwt = require('jsonwebtoken');
 
 const login = async(req, res) => {
     
-   try {
-    
-    //busco user (tiene q existir para pooder log)
-    const user = await Users.findOne({email: req.body.email});
-    if(!user){ return res.status(401).json({message: "No existe user c/ese email!"})}
-    else{
-        //si exist, desencripto pass q viene de la DB
-        const hashedPassword = CryptoJS.AES.decrypt( user.password, process.env.PASS_SEC );
-        //paso a string la pass antes desncrip
-        const OriginalPassword = hashedPassword.toString(CryptoJS.enc.Utf8);
-        //comparo la q viene de la DB con la del front
-        //console.log("pass:", hashedPassword)
-        if(OriginalPassword !== req.body.password){
-            return res.status(401).json({message:"Contraseña incorrecta!"});
+    try {    
+        //busco user (tiene q existir para pooder log)
+        const user = await Users.findOne({email: req.body.email});
+        
+        if(!user){ return res.status(401).json({message: "No existe user c/ese email!"})}
+        else{
+            //si exist, desencripto pass q viene de la DB
+            const hashedPassword = CryptoJS.AES.decrypt( user.password, process.env.PASS_SEC );
+            //paso a string la pass antes desncrip
+            const OriginalPassword = hashedPassword.toString(CryptoJS.enc.Utf8);
+            //comparo la q viene de la DB con la del front
+            //console.log("pass:", hashedPassword)
+            if(OriginalPassword !== req.body.password){
+                return res.status(401).json({message:"Contraseña incorrecta!"});
+            }
+
+            //si el user es correcto CREO el JWT, para mayor seguridad de mi aplicacion, q se asocia con el email del user
+            const token = jwt.sign({ email: user.email }, process.env.JWT_SEC);
+
+            res.json({//res --> del login -->esta info esta alojada en -->user._doc CORROBORAR
+                user,
+                token,
+            });
         }
 
-        //si el user es correcto CREO el JWT, para mayor seguridad de mi aplicacion, q se asocia con el email del user
+    } catch (error) {
+        console.log(error);
+    }
+};
+
+const loginGoogle = async(req, res) => {
+
+    try {
+        const { email, name, imageUrl } = req.body;//me traigo del front el id_token 
+        //busco user
+        const user = await Users.findOne({email: req.body.email});
+        
+        //si no exist el user LO creo
+        if(!user){
+            const data = {
+                email, 
+                password: "/._./",
+                name, 
+                tel: 123456,
+                address: "nn",
+                imageUrl
+            };
+
+            newUser = new Users(data);
+            await newUser.save();
+        }
+    
+        //si es user bloqueado
+        if(user.bloqueado == true){
+            res.json({msg: "user bloqueado"});
+        }
+
+        //CREO el JWT, para mayor seguridad de mi aplicacion, q se asocia con el email del user
         const token = jwt.sign({ email: user.email }, process.env.JWT_SEC);
 
+        console.log("userData: ", user);
+        console.log("userToken: ", token);
         res.json({//res --> del login -->esta info esta alojada en -->user._doc CORROBORAR
             user,
             token,
-          });
+        });
+    
+    } 
+    catch (error) {
+        console.error(error);
+        res.sendStatus(500);
     }
-
-   } catch (error) {
-    console.log(error);
-   }
 };
 
 const validaCuenta = async(req, res) => {
@@ -57,5 +101,6 @@ const validaCuenta = async(req, res) => {
 
 module.exports = {
     login,
+    loginGoogle,
     validaCuenta
 }

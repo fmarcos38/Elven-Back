@@ -15,22 +15,22 @@ const registrarse = async(req, res) => {
         existeEmail = await Users.findOne({email});
         if(existeEmail){ res.status(409).send("YA existe usuario con ese email")}
         else{
-           //SINO existe
-           //cifro pass
-           passwordEncript = CryptoJS.AES.encrypt( password, process.env.PASS_SEC ).toString();
+            //SINO existe
+            //cifro pass
+            passwordEncript = CryptoJS.AES.encrypt( password, process.env.PASS_SEC ).toString();
 
-           //creo user
-           const newUser = await Users.create({name, email, tel, password: passwordEncript});
-           await newUser.save();
-           //si el user es correcto CREO el JWT, para mayor seguridad de mi aplicacion, q se asocia con el email del user
-           const token = jwt.sign({ email: email }, process.env.JWT_SEC);
+            //creo user
+            const newUser = await Users.create({name, email, tel, password: passwordEncript});
+            await newUser.save();
+            //si el user es correcto CREO el JWT, para mayor seguridad de mi aplicacion, q se asocia con el email del user
+            const token = jwt.sign({ email: email }, process.env.JWT_SEC);
 
-           //mando mail de confirm
-           sendConfirmationEmail(newUser,token);
+            //mando mail de confirm
+            sendConfirmationEmail(newUser,token);
 
-           res.status(200).json({
-             newUser,
-             token
+            res.status(200).json({
+                newUser,
+                token
             });
         }
         
