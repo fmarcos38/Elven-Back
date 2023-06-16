@@ -34,6 +34,50 @@ const login = async(req, res) => {
    }
 };
 
+const loginGoogle = async(req, res) => {
+
+    try {
+        const { email, name, imageUrl } = req.body;//me traigo del front el id_token 
+        //busco user
+        const user = await Users.findOne({email: req.body.email});
+        
+        //si no exist el user LO creo
+        if(!user){
+            const data = {
+                email, 
+                password: "/._./",
+                name, 
+                tel: 123456,
+                address: "nn",
+                imageUrl
+            };
+
+            newUser = new Users(data);
+            await newUser.save();
+        }
+    
+        //si es user bloqueado
+        if(user.bloqueado == true){
+            res.json({msg: "user bloqueado"});
+        }
+
+        //CREO el JWT, para mayor seguridad de mi aplicacion, q se asocia con el email del user
+        const token = jwt.sign({ email: user.email }, process.env.JWT_SEC);
+
+        console.log("userData: ", user);
+        console.log("userToken: ", token);
+        res.json({//res --> del login -->esta info esta alojada en -->user._doc CORROBORAR
+            user,
+            token,
+        });
+    
+    } 
+    catch (error) {
+        console.error(error);
+        res.sendStatus(500);
+    }
+};
+
 const validaCuenta = async(req, res) => {
     const {token} = req.params;
     //let token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImZtYXJjb3NfMjNAaG90bWFpbC5jb20iLCJpYXQiOjE2NjgwODA2NjJ9.NRWfmNPrTGMf7IQ52tp0nrOQMkYvsHofdnrt4zApP_c"
@@ -57,5 +101,6 @@ const validaCuenta = async(req, res) => {
 
 module.exports = {
     login,
+    loginGoogle,
     validaCuenta
 }
