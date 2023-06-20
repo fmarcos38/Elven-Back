@@ -35,9 +35,9 @@ const login = async(req, res) => {
 };
 
 const loginGoogle = async(req, res) => {
-
+    //console.log("dataFront: ", req.body);
     try {
-        const { email, name, imageUrl } = req.body;//me traigo del front el id_token 
+        const { email, name } = req.body;//me traigo del front el id_token 
         //busco user
         const user = await Users.findOne({email: req.body.email});
         
@@ -49,7 +49,6 @@ const loginGoogle = async(req, res) => {
                 name, 
                 tel: 123456,
                 address: "nn",
-                imageUrl
             };
 
             newUser = new Users(data);
